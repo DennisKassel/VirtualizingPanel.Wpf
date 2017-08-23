@@ -10,7 +10,7 @@ using System.Windows.Media;
 
 namespace VirtualizingPanel.Wpf
 {
-    public class VirtualizingTilePanel : System.Windows.Controls.VirtualizingPanel, IScrollInfo
+    public class VirtualizingTilePanel : Panel, IScrollInfo
     {
         private Size extent;
         private Size viewport;
