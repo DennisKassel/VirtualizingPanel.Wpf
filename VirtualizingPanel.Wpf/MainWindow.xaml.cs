@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -31,17 +32,27 @@ namespace VirtualizingPanel.Wpf
         public MainWindow()
         {
             InitializeComponent();
-            var lenght = 20;
+            this.Loaded += OnLoaded;
+            var length = 30;
 
             this.ItemCollection = new ObservableCollection<string>(
-                Enumerable.Repeat(chars, lenght).Select((x) => new string(Enumerable.Repeat(chars, 10)
+                Enumerable.Repeat(chars, length).Select((x) => new string(Enumerable.Repeat(chars, 10)
                     .Select(s => s[random.Next(0, chars.Length)]).ToArray())));
+
             this.OnPropertyChanged(nameof(ItemCollection));
+        }
 
-            //Enumerable.Repeat(chars, lenght).Select((x) => new string(Enumerable.Repeat(chars, 10)
-            //        .Select(s => s[random.Next(0, chars.Length)]).ToArray())).ToList()
-            //    .ForEach((s) => this.ItemCollection.Add(s));
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            ScrollToItem((this.ItemCollection.Count / 2) - 1);
+        }
 
+        private void ScrollToItem(int index)
+        {
+            VirtualizingTilePanel panel = this.ItemsControl.FindChild<VirtualizingTilePanel>();
+            var content = this.ItemsControl.ItemContainerGenerator.ContainerFromItem(this.ItemCollection[index]);
+            ((ContentPresenter)content).SetValue(TextBlock.ForegroundProperty, new SolidColorBrush(Colors.Red));
+            panel.MakeVisible((Visual)content, new Rect(new Size(0, 0)));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

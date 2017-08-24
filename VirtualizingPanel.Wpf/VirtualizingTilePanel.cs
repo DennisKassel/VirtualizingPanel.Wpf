@@ -88,7 +88,16 @@ namespace VirtualizingPanel.Wpf
 
         public Rect MakeVisible(Visual visual, Rect rectangle)
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < this.InternalChildren.Count; i++)
+            {
+                if ((Visual)this.InternalChildren[i] == visual)
+                {
+                    Size finalSize = this.RenderSize;
+                    Size childSize = new Size(finalSize.Width / 2, (finalSize.Height * 2) / this.InternalChildren.Count);
+                    this.SetVerticalOffset(childSize.Height * i);
+                }
+            }
+            return rectangle;
         }
 
         public void MouseWheelDown()

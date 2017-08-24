@@ -8,7 +8,7 @@
         x:Name="MainView"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <ItemsControl ItemsSource="{Binding Path=ItemCollection, ElementName=MainView}" >
+        <ItemsControl x:Name="ItemsControl" ItemsSource="{Binding Path=ItemCollection, ElementName=MainView}" >
             <ItemsControl.Style>
                 <Style TargetType="ItemsControl">
                     <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
